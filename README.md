@@ -144,7 +144,4 @@ Thanks to JeyesHan and TrinhQuocNguyen for their excellent work. Most of the cod
 If you find this code useful for your research, please cite our paper
 ```
 
-
-
-
 ```
