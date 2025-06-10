@@ -127,8 +127,7 @@ sh scripts/test.sh market1501 resnet logs/cuhk03TOmarket1501/resnet-CLEPR-3000-0
 
 
 ## Reported Results
-*The reported results of this repo on four main-stream UDA Re-ID benchmarks are listed below.*
-![results](figs/results.PNG)
+
 
 
 
