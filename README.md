@@ -1,4 +1,4 @@
-# Contrastive Learning Enhanced Probabilistic Label Refinement (CLEPR)
+#Contrastive Learning Enhanced Pseudo-Labeling for Unsupervised Domain Adaptation in Person Re-identification(CLEPR)
 
 ## Installation
 
@@ -18,7 +18,7 @@ pip install -r requirements.txt
 ```shell
 cd examples && mkdir data
 ```
-Download the raw datasets [DukeMTMC-reID](https://arxiv.org/abs/1609.01775), [Market-1501](https://www.cv-foundation.org/openaccess/content_iccv_2015/papers/Zheng_Scalable_Person_Re-Identification_ICCV_2015_paper.pdf), [MSMT17](https://arxiv.org/abs/1711.08565),
+Download the raw datasets [DukeMTMC-reID], [Market-1501], [CUHK03], [PersonX]
 and then unzip them under the directory like
 ```
 MMT/examples/data
@@ -26,25 +26,13 @@ MMT/examples/data
 │   └── DukeMTMC-reID
 ├── market1501
 │   └── Market-1501-v15.09.15
-└── msmt17
-    └── MSMT17_V1
+├── custom
+│   └── CustomData
+└── cuhk03
+    └── CUHK03
 ```
 
-## Custom Datasets
-Change Line 24 of clepr/datasets/custom.py to the path of your_custom_dataset. If your have multiple custom datasets, you can copy and rewrite clepr/datasets/custom.py according to your data.
-```
-MMT/examples/data
-├── dukemtmc
-│   └── DukeMTMC-reID
-├── market1501
-│   └── Market-1501-v15.09.15
-└── custom
-    └── your_custom_dataset
-        |── trianval
-        |── probe
-        └── gallery
-    
-```
+
 
 ## Example #1:
 
@@ -93,26 +81,48 @@ sh scripts/train_CLEPR_single_gpu.sh market1501 dukemtmc resnet50 700 0.2 0.12 4
 # testing the best model
 sh scripts/test.sh dukemtmc resnet logs/market1501TOdukemtmc/resnet-CLEPR-700-0.2/model_best.pth.tar
 ```
-**Market-to-MSMT (ResNet-50)**
+**Market-to-CUHK (ResNet-50)**
 ```shell
 # pre-training on the source domain
-sh scripts/pretrain_single_gpu.sh market1501 msmt17 resnet50 1
-sh scripts/pretrain_single_gpu.sh market1501 msmt17 resnet50 2
+sh scripts/pretrain_single_gpu.sh market1501 cuhk03 resnet50 1
+sh scripts/pretrain_single_gpu.sh market1501 cuhk03 resnet50 2
 # end-to-end training with CLEPR
-sh scripts/train_CLEPR_single_gpu.sh market1501 msmt17 resnet50 1500 0.3 0.1 400 120
+sh scripts/train_CLEPR_single_gpu.sh market1501 cuhk03 resnet50 700 0.3 0.1 400 120
 # testing the best model
-sh scripts/test.sh msmt17 resnet logs/market1501TOmsmt17/resnet-CLEPR-3000-0.3/model_best.pth.tar
+sh scripts/test.sh cuhk03 resnet logs/market1501TOcuhk03/resnet-CLEPR-3000-0.3/model_best.pth.tar
 ```
-**Duke-to-MSMT (ResNet-50)**
+**Duke-to-CUHK (ResNet-50)**
 ```shell
 # pre-training on the source domain
-sh scripts/pretrain_single_gpu.sh dukemtmc msmt17 resnet50 1
-sh scripts/pretrain_single_gpu.sh dukemtmc msmt17 resnet50 2
+sh scripts/pretrain_single_gpu.sh dukemtmc cuhk03 resnet50 1
+sh scripts/pretrain_single_gpu.sh dukemtmc cuhk03 resnet50 2
 # end-to-end training with CLEPR
-sh scripts/train_CLEPR_single_gpu.sh dukemtmc msmt17 resnet50 1500 0.3 0.1 400 120
+sh scripts/train_CLEPR_single_gpu.sh dukemtmc cuhk03 resnet50 700 0.3 0.1 400 120
 # testing the best model
-sh scripts/test.sh msmt17 resnet logs/dukemtmcTOmsmt17/resnet-CLEPR-3000-0.3/model_best.pth.tar
+sh scripts/test.sh cuhk03 resnet logs/dukemtmcTOcuhk03/resnet-CLEPR-3000-0.3/model_best.pth.tar
 ```
+**CUHK-to-Duke (ResNet-50)**
+```shell
+# pre-training on the source domain
+sh scripts/pretrain_single_gpu.sh cuhk03 dukemtmc resnet50 1
+sh scripts/pretrain_single_gpu.sh cuhk03 dukemtmc resnet50 2
+# end-to-end training with CLEPR
+sh scripts/train_CLEPR_single_gpu.sh cuhk03 dukemtmc resnet50 700 0.2 0.12 400 120
+# testing the best model
+sh scripts/test.sh dukemtmc resnet logs/cuhk03TOdukemtmc/resnet-CLEPR-3000-0.3/model_best.pth.tar
+```
+**CUHK-to-Market (ResNet-50)**
+```shell
+# pre-training on the source domain
+sh scripts/pretrain_single_gpu.sh cuhk03 market1501 resnet50 1
+sh scripts/pretrain_single_gpu.sh cuhk03 market1501 resnet50 2
+# end-to-end training with CLEPR
+sh scripts/train_CLEPR_single_gpu.sh cuhk03 market1501 resnet50 700 0.3 0.1 400 120
+# testing the best model
+sh scripts/test.sh market1501 resnet logs/cuhk03TOmarket1501/resnet-CLEPR-3000-0.3/model_best.pth.tar
+```
+
+
 
 
 
@@ -122,14 +132,13 @@ sh scripts/test.sh msmt17 resnet logs/dukemtmcTOmsmt17/resnet-CLEPR-3000-0.3/mod
 
 
 
-|      | dukemtmc TO market1501 | market1501 TO dukemtmc | market1501 TO msmt17 | dukemtmc TO msmt17 |
-| ---- | ---------------------- | ---------------------- | -------------------- | ------------------ |
-| mAP  | 75.4                   | 68                     | 23.5                 | 25.5（94epoch）    |
-| R1   | 88.9                   | 80.3                   | 48.8                 |                    |
-| R5   | 95.3                   | 89.5                   | 62.3                 |                    |
-| R10  | 96.9                   | 92.9                   | 68.1                 |                    |
+|      | dukemtmc TO market1501 | market1501 TO dukemtmc 
+| ---- | ---------------------- | ---------------------- 
+| mAP  | 79.0                   | 67.9                   
+| R1   | 91.4                   | 81.4                                   
+| R5   | 96.2                   | 89.7                                   
+| R10  | 97.5                   | 92.3                                
 
-单卡
 
 
 
