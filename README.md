@@ -142,15 +142,9 @@ sh scripts/test.sh market1501 resnet logs/cuhk03TOmarket1501/resnet-CLEPR-3000-0
 
 
 
-## Acknowledgment
-
-Thanks to JeyesHan and TrinhQuocNguyen for their excellent work. Most of the code in this work was borrowed from them.
 
 
 
-## Citation
 
-If you find this code useful for your research, please cite our paper
-```
 
 ```
