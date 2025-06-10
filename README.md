@@ -1,4 +1,4 @@
-#Contrastive Learning Enhanced Pseudo-Labeling for Unsupervised Domain Adaptation in Person Re-identification(CLEPR)
+# Contrastive Learning Enhanced Pseudo-Labeling for Unsupervised Domain Adaptation in Person Re-identification(CLEPR)
 
 ## Installation
 
@@ -40,7 +40,6 @@ Transferring from [DukeMTMC-reID](https://arxiv.org/abs/1609.01775) to [Market-1
 
 ### Train
 ~~We utilize 4 RTX 3080x2 20GB GPUs for training.~~ (你可以将下面的命令中的 `_single_gpu` 删掉来用4个GPU进行训练)
-
 
 
 We utilize 1 TITAN Xp GPU for training.
@@ -122,14 +121,7 @@ sh scripts/train_CLEPR_single_gpu.sh cuhk03 market1501 resnet50 700 0.3 0.1 400 
 sh scripts/test.sh market1501 resnet logs/cuhk03TOmarket1501/resnet-CLEPR-3000-0.3/model_best.pth.tar
 ```
 
-
-
-
-
 ## Reported Results
-
-
-
 
 |      | dukemtmc TO market1501 | market1501 TO dukemtmc 
 | ---- | ---------------------- | ---------------------- 
@@ -138,12 +130,3 @@ sh scripts/test.sh market1501 resnet logs/cuhk03TOmarket1501/resnet-CLEPR-3000-0
 | R5   | 96.2                   | 89.7                                   
 | R10  | 97.5                   | 92.3                                
 
-
-
-
-
-
-
-
-
-```
