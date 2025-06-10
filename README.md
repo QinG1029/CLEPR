@@ -18,7 +18,7 @@ pip install -r requirements.txt
 ```shell
 cd examples && mkdir data
 ```
-Download the raw datasets [DukeMTMC-reID](https://arxiv.org/abs/1609.01775), [Market-1501](https://www.cv-foundation.org/openaccess/content_iccv_2015/papers/Zheng_Scalable_Person_Re-Identification_ICCV_2015_paper.pdf), [MSMT17](https://arxiv.org/abs/1711.08565),
+Download the raw datasets [DukeMTMC-reID], [Market-1501], [CUHK03], [PersonX]
 and then unzip them under the directory like
 ```
 MMT/examples/data
@@ -110,7 +110,7 @@ sh scripts/pretrain_single_gpu.sh cuhk03 dukemtmc resnet50 2
 sh scripts/train_CLEPR_single_gpu.sh cuhk03 dukemtmc resnet50 700 0.2 0.12 400 120
 # testing the best model
 sh scripts/test.sh dukemtmc resnet logs/cuhk03TOdukemtmc/resnet-CLEPR-3000-0.3/model_best.pth.tar
-
+```
 **CUHK-to-Market (ResNet-50)**
 ```shell
 # pre-training on the source domain
@@ -120,7 +120,7 @@ sh scripts/pretrain_single_gpu.sh cuhk03 market1501 resnet50 2
 sh scripts/train_CLEPR_single_gpu.sh cuhk03 market1501 resnet50 700 0.3 0.1 400 120
 # testing the best model
 sh scripts/test.sh market1501 resnet logs/cuhk03TOmarket1501/resnet-CLEPR-3000-0.3/model_best.pth.tar
-
+```
 
 
 
